@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import SearchComponent from "../components/searchComponent";
+import SearchComponent from "./modules/searchModule";
 
 const BrowseScreen = () => {
   const [input, setInput] = useState("");
