@@ -3,13 +3,12 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-elements";
 
 import SearchComponent from "./modules/searchModule";
+import RecipeListModule from "./modules/RecipeListModule";
 import { Context } from "../context/recipeContext";
 
 const SearchScreen = () => {
   const [input, setInput] = useState("");
   const { state, getRecipes } = useContext(Context);
-
-  console.log(state);
 
   return (
     <View>
@@ -19,8 +18,13 @@ const SearchScreen = () => {
       <SearchComponent
         input={input}
         onInputChange={setInput}
-        onInputSubmit={() => getRecipes(input)}
+        onInputSubmit={() => {
+          if (input) {
+            getRecipes(input);
+          }
+        }}
       />
+      <RecipeListModule results={state.results} />
     </View>
   );
 };

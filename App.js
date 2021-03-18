@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
+
 export default () => {
   return (
     <Provider>
