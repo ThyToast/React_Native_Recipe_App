@@ -11,7 +11,7 @@ const SearchScreen = () => {
   const { state, getRecipes } = useContext(Context);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Text h2 style={styles.text}>
         Search
       </Text>

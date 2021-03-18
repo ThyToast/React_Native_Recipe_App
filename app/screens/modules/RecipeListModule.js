@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Divider } from "react-native-elements";
+import RecipeItemListModule from "./RecipeItemListModule";
 
 const RecipeListModule = ({ results }) => {
   const navigation = useNavigation();
@@ -24,7 +25,14 @@ const RecipeListModule = ({ results }) => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
-              <Text>{item.title}</Text>
+              <RecipeItemListModule result={item} />
+              <Divider
+                style={{
+                  backgroundColor: "lightgray",
+                  height: 2,
+                  marginVertical: 10,
+                }}
+              />
             </TouchableOpacity>
           );
         }}
@@ -36,7 +44,7 @@ const RecipeListModule = ({ results }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
+    paddingBottom: "30%",
   },
 });
 
