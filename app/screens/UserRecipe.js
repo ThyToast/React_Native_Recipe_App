@@ -1,11 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { StyleSheet, View } from "react-native";
+import { Icon, Text } from "react-native-elements";
 
 const UserRecipe = () => {
   return (
     <View style={styles.container}>
-      <Text></Text>
+      <Text h2 style={styles.text}>
+        User
+      </Text>
       <Icon
         raised
         name="add"
@@ -28,6 +30,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
+  },
+  text: {
+    padding: 10,
+    paddingBottom: 10,
   },
 });
 

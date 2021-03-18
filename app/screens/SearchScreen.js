@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-elements";
+
 import SearchComponent from "./modules/searchModule";
 import { Context } from "../context/recipeContext";
 
@@ -11,6 +13,9 @@ const SearchScreen = () => {
 
   return (
     <View>
+      <Text h2 style={styles.text}>
+        Search
+      </Text>
       <SearchComponent
         input={input}
         onInputChange={setInput}
@@ -20,6 +25,11 @@ const SearchScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    padding: 10,
+    paddingBottom: 10,
+  },
+});
 
 export default SearchScreen;
