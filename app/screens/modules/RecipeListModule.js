@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { ListItem } from "react-native-elements";
 
 const RecipeListModule = ({ results }) => {
   const navigation = useNavigation();
@@ -22,9 +23,7 @@ const RecipeListModule = ({ results }) => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("DetailStack")}
-            >
+            <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
               <Text>{item.title}</Text>
             </TouchableOpacity>
           );

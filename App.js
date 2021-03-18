@@ -15,24 +15,21 @@ import UserRecipe from "./app/screens/UserRecipe";
 
 import { Provider } from "./app/context/recipeContext";
 
-const DetailedStack = createStackNavigator();
 const UserStack = createStackNavigator();
+const BrowseStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
 const MainTab = createMaterialBottomTabNavigator();
 
 const BrowseStackFlow = () => {
   return (
-    <DetailedStack.Navigator
+    <BrowseStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <DetailedStack.Screen name="BrowseStack" component={BrowseScreen} />
-      <DetailedStack.Screen
-        name="DetailStack"
-        component={DetailedRecipeScreen}
-      />
-    </DetailedStack.Navigator>
+      <BrowseStack.Screen name="BrowseStack" component={BrowseScreen} />
+    </BrowseStack.Navigator>
   );
 };
 
@@ -50,42 +47,53 @@ const UserStackFlow = () => {
   );
 };
 
+const MainTabFlow = () => {
+  return (
+    <MainTab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName, type;
+
+          //displays different icons based on route name
+
+          if (route.name === "Browse") {
+            iconName = "list-ul";
+            type = "font-awesome-5";
+          } else if (route.name === "Search") {
+            iconName = "search";
+            type = "font-awesome-5";
+          } else if (route.name === "User") {
+            iconName = "user-alt";
+            type = "font-awesome-5";
+          }
+
+          return <Icon name={iconName} color={color} type={type} size={size} />;
+        },
+      })}
+      activeColor="darkorange"
+      inactiveColor="gray"
+      barStyle={styles.bar}
+      labeled={false}
+    >
+      <MainTab.Screen name="Browse" component={BrowseStackFlow} />
+      <MainTab.Screen name="Search" component={SearchScreen} />
+      <MainTab.Screen name="User" component={UserStackFlow} />
+    </MainTab.Navigator>
+  );
+};
+
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <MainTab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName, type;
-
-              //displays different icons based on route name
-
-              if (route.name === "Browse") {
-                iconName = "list-ul";
-                type = "font-awesome-5";
-              } else if (route.name === "Search") {
-                iconName = "search";
-                type = "font-awesome-5";
-              } else if (route.name === "User") {
-                iconName = "user-alt";
-                type = "font-awesome-5";
-              }
-
-              return (
-                <Icon name={iconName} color={color} type={type} size={size} />
-              );
-            },
-          })}
-          activeColor="darkorange"
-          inactiveColor="gray"
-          barStyle={styles.bar}
-          labeled={false}
+        <MainStack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
         >
-          <MainTab.Screen name="Browse" component={BrowseStackFlow} />
-          <MainTab.Screen name="Search" component={SearchScreen} />
-          <MainTab.Screen name="User" component={UserStackFlow} />
-        </MainTab.Navigator>
+          <MainStack.Screen name="Main" component={MainTabFlow} />
+          <MainStack.Screen name="Detail" component={DetailedRecipeScreen} />
+        </MainStack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
   );
