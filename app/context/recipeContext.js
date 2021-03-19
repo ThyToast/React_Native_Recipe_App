@@ -29,10 +29,10 @@ const getRecipes = (dispatch) => {
 };
 
 const getRandomRecipes = (dispatch) => {
-  return async (number) => {
+  return async (amount) => {
     const response = await spoonacular.get("/random", {
       params: {
-        number,
+        number: amount.toString(),
         apiKey,
       },
     });
