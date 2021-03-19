@@ -14,12 +14,18 @@ const RecipeListModule = ({ results }) => {
   return (
     <View style={styles.container}>
       <FlatList
+        style={styles.flatlist}
         data={results}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
-              <RecipeItemListModule result={item} />
+            <>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Detail", { id: item.id })}
+              >
+                <RecipeItemListModule result={item} />
+              </TouchableOpacity>
+
               <Divider
                 style={{
                   backgroundColor: "lightgray",
@@ -27,7 +33,7 @@ const RecipeListModule = ({ results }) => {
                   marginVertical: 25,
                 }}
               />
-            </TouchableOpacity>
+            </>
           );
         }}
         keyExtractor={(item) => item.id.toString()}
@@ -38,8 +44,10 @@ const RecipeListModule = ({ results }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
     paddingBottom: "30%",
+  },
+  flatlist: {
+    paddingTop: 15,
   },
 });
 

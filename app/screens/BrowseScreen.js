@@ -4,7 +4,7 @@ import { Text } from "react-native-elements";
 import { Context } from "../context/recipeContext";
 import RecipeListModule from "./modules/RecipeListModule";
 
-const BrowseScreen = ({ navigation }) => {
+const BrowseScreen = () => {
   const { state, getRandomRecipes } = useContext(Context);
   let item = 15;
 
