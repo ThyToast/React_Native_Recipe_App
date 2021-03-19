@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { ListItem, Divider } from "react-native-elements";
+import { Divider } from "react-native-elements";
 import RecipeItemListModule from "./RecipeItemListModule";
 
 const RecipeListModule = ({ results }) => {

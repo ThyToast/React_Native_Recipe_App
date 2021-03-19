@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+// import LinearGradient from 'react-native-linear-gradient';
+// to be used if React Native CLI is used instead of Expo
 
 const RecipeItemListModule = ({ result }) => {
   return (
@@ -11,9 +13,11 @@ const RecipeItemListModule = ({ result }) => {
         source={{ uri: result.image }}
       >
         <LinearGradient
+          //adds a transparent gradient on top of source image
           colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
           style={styles.linearGradient}
-        ></LinearGradient>
+        />
+
         <Text style={styles.name}>{result.title}</Text>
       </ImageBackground>
 
