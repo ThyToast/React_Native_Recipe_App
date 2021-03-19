@@ -40,8 +40,15 @@ const getRandomRecipes = (dispatch) => {
   };
 };
 
+const getDetailedRecipes = (dispatch) => {
+  return async (id) => {
+    const response = await spoonacular.get(`/${id}/information`);
+    dispatch({ type: "get_detailed", payload: response.data });
+  };
+};
+
 export const { Provider, Context } = createDataContext(
   recipeReducer,
-  { getRecipes, getRandomRecipes },
+  { getRecipes, getRandomRecipes, getDetailedRecipes },
   { errorMessage: "" }
 );

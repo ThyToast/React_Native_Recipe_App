@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Context } from "../context/recipeContext";
 
-const DetailedRecipeScreen = ({ route }) => {
+const DetailedRecipeScreen = ({ route, navigation }) => {
+  const { state, getDetailedRecipes } = useContext(Context);
+
   const { id } = route.params;
-  console.log(id);
+
+  useEffect(() => {
+    getDetailedRecipes(id);
+
+    //loads data on page focus
+
+    navigation.addListener("focus", () => {
+      getDetailedRecipes(id);
+      console.log(state);
+    });
+
+    //clears the listener when user switches screens
+    //like rxjava
+    return () => {
+      getDetailedRecipes(id);
+    };
+  }, []);
 
   return (
     <View>
