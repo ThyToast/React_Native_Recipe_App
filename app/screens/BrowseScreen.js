@@ -11,10 +11,12 @@ const BrowseScreen = ({ navigation }) => {
   useEffect(() => {
     getRandomRecipes(item);
 
-    navigation.addListener("focus", () => {
-      getRandomRecipes(item);
-      console.log(state.recipes);
-    });
+    //loads new data on page focus
+
+    // navigation.addListener("focus", () => {
+    //   getRandomRecipes(item);
+    //   console.log(state.recipes);
+    // });
 
     //clears the listener when user switches screens
     //like rxjava

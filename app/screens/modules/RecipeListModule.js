@@ -24,7 +24,7 @@ const RecipeListModule = ({ results }) => {
                 style={{
                   backgroundColor: "lightgray",
                   height: 2,
-                  marginVertical: 10,
+                  marginVertical: 25,
                 }}
               />
             </TouchableOpacity>
@@ -38,6 +38,7 @@ const RecipeListModule = ({ results }) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
     paddingBottom: "30%",
   },
 });

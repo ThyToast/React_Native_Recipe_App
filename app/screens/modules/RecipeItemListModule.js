@@ -34,7 +34,6 @@ const RecipeItemListModule = ({ result }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 15,
   },
   image: {
     width: "90%",
