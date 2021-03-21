@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import { Text, Icon } from "react-native-elements";
 import { parse } from "fast-xml-parser";
 import ActionSheet from "react-native-actions-sheet";
-import { Asset } from "expo-asset";
 
 import SearchComponent from "./modules/searchModule";
 import RecipeListModule from "./modules/RecipeListModule";

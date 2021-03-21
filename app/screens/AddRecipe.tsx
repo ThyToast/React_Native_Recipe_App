@@ -1,55 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image, Platform, Alert } from "react-native";
 import { Text, Input, Icon } from "react-native-elements";
-import * as ImagePicker from "expo-image-picker";
+import { ScrollView } from "react-native-gesture-handler";
+import { launchImageLibrary } from "react-native-image-picker";
 //react-native-image-picker if not using expo
 
 const AddRecipe = () => {
   const [image, setImage] = useState<any>();
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== "web") {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          Alert.alert(
-            "Sorry, we need camera roll permissions to make this work!"
-          );
-        }
+  // useEffect(() => {
+  //   (async () => {
+  //     if (Platform.OS !== "web") {
+  //       const {
+  //         status,
+  //       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       if (status !== "granted") {
+  //         Alert.alert(
+  //           "Sorry, we need camera roll permissions to make this work!"
+  //         );
+  //       }
+  //     }
+  //   })();
+  // }, []);
+
+  const pickImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        includeBase64: false,
+        maxHeight: 250,
+        maxWidth: 400,
+      },
+      (response) => {
+        setImage(response);
       }
-    })();
-  }, []);
-
-  const pickImage = async () => {
-    let result: any = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
+    );
   };
 
   return (
     <View style={styles.container}>
-      <Text h2 style={styles.text}>
-        Add Recipe
-      </Text>
+      <ScrollView>
+        <View style={{ marginBottom: 100 }}>
+          <Text h2 style={styles.text}>
+            Add Recipe
+          </Text>
 
-      <Image source={{ uri: image }} style={{ width: "100%", height: 250 }} />
+          {image ? (
+            <Image
+              source={{ uri: image.uri }}
+              style={{ width: "100%", height: 250 }}
+            />
+          ) : null}
 
-      <View style={styles.inputContainer}>
-        <Input placeholder="Enter recipe name" />
-        <Input placeholder="Enter recipe ingredients" multiline={true} />
-        <Input placeholder="Enter recipe steps" multiline={true} />
-      </View>
+          <View style={styles.inputContainer}>
+            <Input placeholder="Enter recipe name" />
+            <Input placeholder="Enter recipe ingredients" multiline={true} />
+            <Input placeholder="Enter recipe steps" multiline={true} />
+          </View>
+        </View>
+      </ScrollView>
 
       <Icon
         raised

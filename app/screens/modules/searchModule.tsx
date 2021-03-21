@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { SearchBar } from "react-native-elements";
 
-const SearchComponent = ({ input, onInputChange, onInputSubmit }) => {
+const SearchComponent = ({ input, onInputChange, onInputSubmit }: any) => {
   return (
     <>
       <SearchBar
