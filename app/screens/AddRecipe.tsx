@@ -3,7 +3,6 @@ import { StyleSheet, View, Image, Platform, Alert } from "react-native";
 import { Text, Input, Icon } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
-//react-native-image-picker if not using expo
 
 const AddRecipe = () => {
   const [image, setImage] = useState<any>();

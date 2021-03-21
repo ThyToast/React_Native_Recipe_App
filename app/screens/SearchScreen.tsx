@@ -1,5 +1,5 @@
 import React, { useContext, useState, createRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import { Text, Icon } from "react-native-elements";
 import { parse } from "fast-xml-parser";
 import ActionSheet from "react-native-actions-sheet";
@@ -16,9 +16,12 @@ const SearchScreen = () => {
 
   const { state, getRecipes }: any = useContext(Context);
 
-  // const XMLData = Asset.fromModule(require("../../assets/recipetypes.xml"));
-  // console.log(XMLData);
-  // unable to load non-JSON files in Expo
+  const getXMLResponse = async () => {
+    const response = await fetch(
+      "https://gist.githubusercontent.com/ThyToast/b123e38685ae726aefb9f0b8fbedfaba/raw/ab0b354760f3225f6775e9fd97a7518c21c415e5/recipetypes.xml"
+    );
+    console.log("response is", await response.text());
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -43,7 +46,7 @@ const SearchScreen = () => {
         type="MaterialIcons"
         onPress={() => {
           //TODO: Find a way to display popup to choose different cuisine
-
+          getXMLResponse();
           actionSheetRef.current?.setModalVisible();
 
           // setCuisine("Japanese");
