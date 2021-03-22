@@ -7,8 +7,8 @@ export const mySchema = appSchema({
       name: "recipes",
       columns: [
         { name: "title", type: "string" },
-        { name: "poster_image", type: "string" },
-        { name: "description", type: "string" },
+        { name: "image", type: "string" },
+        { name: "instruction", type: "string" },
       ],
     }),
   ],
