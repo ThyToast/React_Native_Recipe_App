@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Text } from "react-native-elements";
 
 const FilterList = ({ recipeTypes, callback, refresh }: any) => {

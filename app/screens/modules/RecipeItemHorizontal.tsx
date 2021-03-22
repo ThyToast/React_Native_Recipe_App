@@ -1,8 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-// import LinearGradient from 'react-native-linear-gradient';
-// to be used if React Native CLI is used instead of Expo
 
 const RecipeItemListHorizontal = ({ result }: any) => {
   return (

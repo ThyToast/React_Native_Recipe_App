@@ -8,6 +8,7 @@ const BrowseScreen = () => {
   const { state, getRandomRecipes }: any = useContext(Context);
   let item = 15;
 
+  // prevent API quota from running out
   // useEffect(() => {
   //   getRandomRecipes(item);
 

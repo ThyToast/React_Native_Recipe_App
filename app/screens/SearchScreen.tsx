@@ -1,11 +1,5 @@
 import React, { useContext, useState, createRef, useEffect } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Text, Icon } from "react-native-elements";
 import ActionSheet from "react-native-actions-sheet";
 
@@ -22,13 +16,13 @@ const SearchScreen = () => {
 
   const { state, getRecipes, getRecipeTypes }: any = useContext(Context);
 
-  // useEffect(() => {
-  //   getRecipeTypes();
+  useEffect(() => {
+    getRecipeTypes();
 
-  //   return () => {
-  //     getRecipeTypes();
-  //   };
-  // }, []);
+    return () => {
+      getRecipeTypes();
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -52,14 +46,8 @@ const SearchScreen = () => {
         name="filter-list"
         type="MaterialIcons"
         onPress={() => {
-          //TODO: Find a way to display popup to choose different cuisine
           getRecipeTypes();
           actionSheetRef.current?.setModalVisible();
-
-          // setCuisine("Japanese");
-          // if (state) {
-          //   getRecipes(input, cuisine);
-          // }
         }}
       />
 
@@ -86,30 +74,12 @@ const SearchScreen = () => {
                 refresh={() => {
                   if (input) {
                     getRecipes(input, cuisine);
+                    //a little buggy on lower end devices
                     actionSheetRef.current?.handleChildScrollEnd();
                   }
                 }}
               />
             ) : null}
-            {/* <FlatList
-              style={styles.flatlist}
-              data={state.recipetypes["name"]}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => {
-                return (
-                  <>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setCuisine(item);
-                      }}
-                    >
-                      <Text style={styles.textList}>{item}</Text>
-                    </TouchableOpacity>
-                  </>
-                );
-              }}
-              keyExtractor={(item) => item}
-            /> */}
           </ScrollView>
         </View>
       </ActionSheet>

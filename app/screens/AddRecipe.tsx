@@ -1,26 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Image, Platform, Alert } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View, Image } from "react-native";
 import { Text, Input, Icon } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
 
 const AddRecipe = () => {
   const [image, setImage] = useState<any>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (Platform.OS !== "web") {
-  //       const {
-  //         status,
-  //       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== "granted") {
-  //         Alert.alert(
-  //           "Sorry, we need camera roll permissions to make this work!"
-  //         );
-  //       }
-  //     }
-  //   })();
-  // }, []);
 
   const pickImage = () => {
     launchImageLibrary(
