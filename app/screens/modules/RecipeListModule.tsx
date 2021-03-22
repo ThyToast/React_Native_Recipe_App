@@ -1,14 +1,14 @@
 import React from "react";
 import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Divider } from "react-native-elements";
+import { Divider, Text } from "react-native-elements";
 import RecipeItemListModule from "./RecipeItemListModule";
 
 const RecipeListModule = ({ results }: any) => {
   const navigation = useNavigation();
 
   if (!results) {
-    return null;
+    return <Text style={styles.errorText}>No results found</Text>;
   }
 
   return (
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     paddingTop: 15,
+  },
+  errorText: {
+    alignSelf: "center",
+    fontSize: 18,
   },
 });
 

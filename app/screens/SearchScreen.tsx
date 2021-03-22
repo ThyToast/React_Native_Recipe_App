@@ -72,11 +72,9 @@ const SearchScreen = () => {
                 recipeTypes={state.recipetypes}
                 callback={setCuisine}
                 refresh={() => {
-                  if (input) {
-                    getRecipes(input, cuisine);
-                    //a little buggy on lower end devices
-                    actionSheetRef.current?.handleChildScrollEnd();
-                  }
+                  getRecipes(input, cuisine);
+                  //a little buggy on lower end devices
+                  actionSheetRef.current?.handleChildScrollEnd();
                 }}
               />
             ) : null}
