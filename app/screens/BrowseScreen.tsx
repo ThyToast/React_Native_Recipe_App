@@ -8,22 +8,22 @@ const BrowseScreen = () => {
   const { state, getRandomRecipes }: any = useContext(Context);
   let item = 15;
 
-  useEffect(() => {
-    getRandomRecipes(item);
+  // useEffect(() => {
+  //   getRandomRecipes(item);
 
-    //loads new data on page focus
+  //   //loads new data on page focus
 
-    // navigation.addListener("focus", () => {
-    //   getRandomRecipes(item);
-    //   console.log(state.recipes);
-    // });
+  //   // navigation.addListener("focus", () => {
+  //   //   getRandomRecipes(item);
+  //   //   console.log(state.recipes);
+  //   // });
 
-    //clears the listener when user switches screens
-    //like rxjava
-    return () => {
-      getRandomRecipes(item);
-    };
-  }, []);
+  //   //clears the listener when user switches screens
+  //   //like rxjava
+  //   return () => {
+  //     getRandomRecipes(item);
+  //   };
+  // }, []);
 
   return (
     <View>

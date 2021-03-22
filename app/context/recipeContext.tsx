@@ -1,5 +1,7 @@
 import createDataContext from "./createDataContext";
 import spoonacular from "../actions/api/spooncular";
+import recipetypes from "../actions/api/recipetypes";
+import { parse } from "fast-xml-parser";
 
 const apiKey = "9a37e6e82ff442a7a2fb07a6b6f9f324";
 
@@ -9,6 +11,9 @@ const recipeReducer = (state: any, action: any) => {
       return action.payload;
 
     case "get_random":
+      return action.payload;
+
+    case "get_type":
       return action.payload;
 
     default:
@@ -48,8 +53,15 @@ const getDetailedRecipes = (dispatch: any) => {
   };
 };
 
+const getRecipeTypes = (dispatch: any) => {
+  return async () => {
+    const response = await recipetypes.get("");
+    dispatch({ type: "get_type", payload: parse(response.data) });
+  };
+};
+
 export const { Provider, Context } = createDataContext(
   recipeReducer,
-  { getRecipes, getRandomRecipes, getDetailedRecipes },
+  { getRecipes, getRandomRecipes, getDetailedRecipes, getRecipeTypes },
   { errorMessage: "" }
 );
