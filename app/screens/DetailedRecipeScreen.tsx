@@ -1,36 +1,81 @@
 import React, { useContext, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { Context } from "../context/recipeContext";
 
 const DetailedRecipeScreen = ({ route, navigation }: any) => {
   const { state, getDetailedRecipes }: any = useContext(Context);
-
   const { id } = route.params;
 
   useEffect(() => {
     getDetailedRecipes(id);
 
-    //loads data on page focus
-
     navigation.addListener("focus", () => {
       getDetailedRecipes(id);
-      console.log(state);
     });
 
-    //clears the listener when user switches screens
-    //like rxjava
     return () => {
       getDetailedRecipes(id);
     };
-  }, []);
+  }, [id]);
 
   return (
     <View>
-      <Text>Detailed recipes</Text>
+      <ScrollView>
+        <ImageBackground
+          style={styles.image}
+          imageStyle={{ width: "100%", borderRadius: 15 }}
+          source={{ uri: state.image }}
+        >
+          <LinearGradient
+            //adds a transparent gradient on top of source image
+            colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
+            style={styles.linearGradient}
+          />
+          <Text style={styles.name}>{state.title}</Text>
+        </ImageBackground>
+        <Text style={styles.instructions}>{state.instructions}</Text>
+      </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  image: {
+    width: "100%",
+    height: 250,
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: "white",
+    marginHorizontal: 30,
+    paddingBottom: 15,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  linearGradient: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    borderRadius: 15,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  instructions: {
+    fontSize: 18,
+    padding: 10,
+    paddingVertical: 20,
+  },
+});
 
 export default DetailedRecipeScreen;

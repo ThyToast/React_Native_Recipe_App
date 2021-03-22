@@ -10,7 +10,7 @@ import { Context } from "../context/recipeContext";
 
 const actionSheetRef: any = createRef();
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }: any) => {
   const [input, setInput] = useState("");
   const [cuisine, setCuisine] = useState("");
 
@@ -18,6 +18,12 @@ const SearchScreen = () => {
 
   useEffect(() => {
     getRecipeTypes();
+
+    navigation.addListener("focus", () => {
+      if (input) {
+        getRecipes(input, cuisine);
+      }
+    });
 
     return () => {
       getRecipeTypes();
