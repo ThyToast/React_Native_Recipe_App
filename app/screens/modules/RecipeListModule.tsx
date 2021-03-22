@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-elements";
 import RecipeItemListModule from "./RecipeItemListModule";
 
-const RecipeListModule = ({ results, isVertical }: any) => {
+const RecipeListModule = ({ results }: any) => {
   const navigation = useNavigation();
 
   if (!results) {
