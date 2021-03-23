@@ -1,11 +1,10 @@
 import { Database } from "@nozbe/watermelondb";
 import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 
-import { mySchema } from "../model/schema";
+import mySchema from "../model/schema";
 import { dbModels } from "../model/index";
 
 const adapter = new SQLiteAdapter({
-  dbName: "recipesList",
   schema: mySchema,
 });
 

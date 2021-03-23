@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Icon, Text } from "react-native-elements";
+import UserRecipeList from "./modules/UserRecipeList";
 
 const UserRecipe = ({ navigation }: any) => {
+  // useEffect(() => {
+  //   getUserRecipe();
+
+  //   navigation.addListener("focus", () => {
+  //     getUserRecipe();
+  //   });
+
+  //   return () => {
+  //     getUserRecipe();
+  //   };
+  // }, []);
+
   return (
     <View style={styles.container}>
       <Text h2 style={styles.text}>
         User
       </Text>
-      <Text style={styles.noRecipe}>No recipes found</Text>
+      {/* <Text style={styles.noRecipe}>No recipes found</Text> */}
+      <UserRecipeList />
       <Icon
         raised
         name="add"

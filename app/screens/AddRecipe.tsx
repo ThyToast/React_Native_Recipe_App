@@ -3,15 +3,12 @@ import { StyleSheet, View, Image, Keyboard, Alert } from "react-native";
 import { Text, Input, Icon, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
-import { useDatabase } from "@nozbe/watermelondb/hooks";
 
 const AddRecipe = ({ navigation }: any) => {
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<any>(null);
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
-
-  const database = useDatabase();
 
   const pickImage = () => {
     launchImageLibrary(
@@ -27,21 +24,20 @@ const AddRecipe = ({ navigation }: any) => {
     );
   };
 
-  async function addRecipe() {
-    await database.action(async () => {
-      const recipes = database.collections.get("recipes");
-
-      return await recipes.create((recipes) => {
-        recipes.title = title;
-        recipes.image = image;
-        recipes.instruction = instruction;
-        recipes.ingredients = ingredients;
-      });
-    });
-
-    Keyboard.dismiss();
-    navigation.goBack();
-  }
+  // async function addRecipe() {
+  //   await database.action(async () => {
+  //     const recipes = database.collections.get("recipes");
+  //     return await recipes.create((recipe) => {
+  //       recipe.title = title;
+  //       recipe.image = image.uri;
+  //       recipe.instruction = instruction;
+  //       recipe.ingredients = ingredients;
+  //       console.log(recipe)
+  //     });
+  //   });
+  //   Keyboard.dismiss();
+  //   // navigation.goBack();
+  // }
 
   return (
     <View style={styles.container}>
@@ -85,7 +81,7 @@ const AddRecipe = ({ navigation }: any) => {
                 Alert.alert("Please ensure that all fields are filled");
               } else {
                 console.log("All fields are filled");
-                addRecipe();
+                //add recipe goes here
               }
             }}
           />
