@@ -1,28 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Icon, Text } from "react-native-elements";
 import UserRecipeList from "./modules/UserRecipeList";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserRecipe = ({ navigation }: any) => {
-  // useEffect(() => {
-  //   getUserRecipe();
+  const [recipe, setRecipe] = useState<any>();
 
-  //   navigation.addListener("focus", () => {
-  //     getUserRecipe();
-  //   });
+  const getData = () => {
+    try {
+      AsyncStorage.getItem("user_recipes").then((recipes: any) => {
+        const recipe = JSON.parse(recipes);
+        setRecipe(recipe);
+      });
+    } catch (e) {
+      console.log("error getting recipes");
+    }
+  };
 
-  //   return () => {
-  //     getUserRecipe();
-  //   };
-  // }, []);
+  useEffect(() => {
+    getData();
+
+    navigation.addListener("focus", () => {
+      getData();
+    });
+
+    return () => {
+      getData();
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text h2 style={styles.text}>
         User
       </Text>
-      {/* <Text style={styles.noRecipe}>No recipes found</Text> */}
-      <UserRecipeList />
+      <UserRecipeList recipes={recipe} />
       <Icon
         raised
         name="add"

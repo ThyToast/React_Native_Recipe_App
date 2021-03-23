@@ -3,9 +3,10 @@ import { StyleSheet, View, Image, Keyboard, Alert } from "react-native";
 import { Text, Input, Icon, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AddRecipe = ({ navigation }: any) => {
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<any>();
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
@@ -24,20 +25,14 @@ const AddRecipe = ({ navigation }: any) => {
     );
   };
 
-  // async function addRecipe() {
-  //   await database.action(async () => {
-  //     const recipes = database.collections.get("recipes");
-  //     return await recipes.create((recipe) => {
-  //       recipe.title = title;
-  //       recipe.image = image.uri;
-  //       recipe.instruction = instruction;
-  //       recipe.ingredients = ingredients;
-  //       console.log(recipe)
-  //     });
-  //   });
-  //   Keyboard.dismiss();
-  //   // navigation.goBack();
-  // }
+  const storeRecipe = async (recipe: any) => {
+    try {
+      const jsonValue = JSON.stringify(recipe);
+      await AsyncStorage.setItem("user_recipes", jsonValue);
+    } catch (e) {
+      console.log("error saving");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -82,6 +77,13 @@ const AddRecipe = ({ navigation }: any) => {
               } else {
                 console.log("All fields are filled");
                 //add recipe goes here
+                const recipe = {
+                  image: image.uri,
+                  title,
+                  ingredients,
+                  instruction,
+                };
+                storeRecipe(recipe);
               }
             }}
           />
