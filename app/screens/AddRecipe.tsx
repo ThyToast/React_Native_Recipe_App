@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Image } from "react-native";
-import { Text, Input, Icon } from "react-native-elements";
+import { StyleSheet, View, Image, Keyboard, Alert } from "react-native";
+import { Text, Input, Icon, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
+import { useDatabase } from "@nozbe/watermelondb/hooks";
 
-const AddRecipe = () => {
+const AddRecipe = ({ navigation }: any) => {
   const [image, setImage] = useState<any>();
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [instruction, setInstruction] = useState("");
+
+  const database = useDatabase();
 
   const pickImage = () => {
     launchImageLibrary(
@@ -20,6 +26,22 @@ const AddRecipe = () => {
       }
     );
   };
+
+  async function addRecipe() {
+    await database.action(async () => {
+      const recipes = database.collections.get("recipes");
+
+      return await recipes.create((recipes) => {
+        recipes.title = title;
+        recipes.image = image;
+        recipes.instruction = instruction;
+        recipes.ingredients = ingredients;
+      });
+    });
+
+    Keyboard.dismiss();
+    navigation.goBack();
+  }
 
   return (
     <View style={styles.container}>
@@ -37,16 +59,42 @@ const AddRecipe = () => {
           ) : null}
 
           <View style={styles.inputContainer}>
-            <Input placeholder="Enter recipe name" />
-            <Input placeholder="Enter recipe ingredients" multiline={true} />
-            <Input placeholder="Enter recipe steps" multiline={true} />
+            <Input
+              placeholder="Enter recipe name"
+              onChangeText={(input) => setTitle(input)}
+            />
+            <Input
+              placeholder="Enter recipe ingredients"
+              multiline={true}
+              onChangeText={(input) => setIngredients(input)}
+            />
+            <Input
+              placeholder="Enter recipe steps"
+              multiline={true}
+              onChangeText={(input) => setInstruction(input)}
+            />
           </View>
+
+          <Button
+            title="Add Recipe"
+            buttonStyle={styles.button}
+            containerStyle={{ paddingHorizontal: 20 }}
+            titleStyle={{ padding: 10, flex: 1 }}
+            onPress={() => {
+              if (!title || !image || !instruction || !ingredients) {
+                Alert.alert("Please ensure that all fields are filled");
+              } else {
+                console.log("All fields are filled");
+                addRecipe();
+              }
+            }}
+          />
         </View>
       </ScrollView>
 
       <Icon
         raised
-        containerStyle={styles.button}
+        containerStyle={styles.upload}
         name="upload"
         type="font-awesome-5"
         onPress={pickImage}
@@ -68,10 +116,13 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 10,
   },
-  button: {
+  upload: {
     alignSelf: "flex-end",
     bottom: 20,
     right: 20,
+  },
+  button: {
+    height: 35,
   },
 });
 

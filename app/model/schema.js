@@ -9,6 +9,7 @@ export const mySchema = appSchema({
         { name: "title", type: "string" },
         { name: "image", type: "string" },
         { name: "instruction", type: "string" },
+        { name: "ingredients", type: "string" },
       ],
     }),
   ],

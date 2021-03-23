@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DatabaseProvider from "@nozbe/watermelondb/DatabaseProvider";
 
 import SearchScreen from "./app/screens/SearchScreen";
 import DetailedRecipeScreen from "./app/screens/DetailedRecipeScreen";
@@ -12,6 +13,7 @@ import BrowseScreen from "./app/screens/BrowseScreen";
 import AddRecipe from "./app/screens/AddRecipe";
 import EditRecipe from "./app/screens/EditRecipe";
 import UserRecipe from "./app/screens/UserRecipe";
+import database from "./app/database/database";
 
 import { Provider } from "./app/context/recipeContext";
 
@@ -111,8 +113,10 @@ const styles = StyleSheet.create({
 
 export default () => {
   return (
-    <Provider>
-      <App />
-    </Provider>
+    <DatabaseProvider database={database}>
+      <Provider>
+        <App />
+      </Provider>
+    </DatabaseProvider>
   );
 };

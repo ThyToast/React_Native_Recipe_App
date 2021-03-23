@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Divider, Text } from "react-native-elements";
 import RecipeItemListModule from "./RecipeItemListModule";
@@ -12,31 +12,33 @@ const RecipeListModule = ({ results }: any) => {
   }
 
   return (
-    <FlatList
-      style={styles.flatlist}
-      data={results}
-      showsVerticalScrollIndicator={false}
-      renderItem={({ item }) => {
-        return (
-          <>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Detail", { id: item.id })}
-            >
-              <RecipeItemListModule result={item} isVertical={true} />
-            </TouchableOpacity>
+    <View style={styles.container}>
+      <FlatList
+        style={styles.flatlist}
+        data={results}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => {
+          return (
+            <>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Detail", { id: item.id })}
+              >
+                <RecipeItemListModule result={item} isVertical={true} />
+              </TouchableOpacity>
 
-            <Divider
-              style={{
-                backgroundColor: "lightgray",
-                height: 2,
-                marginVertical: 25,
-              }}
-            />
-          </>
-        );
-      }}
-      keyExtractor={(item) => item.id.toString()}
-    />
+              <Divider
+                style={{
+                  backgroundColor: "lightgray",
+                  height: 2,
+                  marginVertical: 25,
+                }}
+              />
+            </>
+          );
+        }}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </View>
   );
 };
 
