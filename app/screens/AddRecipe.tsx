@@ -3,13 +3,16 @@ import { StyleSheet, View, Image, Keyboard, Alert } from "react-native";
 import { Text, Input, Icon, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useId } from "react-id-generator";
+
+import { addNewRecipe } from "../model/schema";
 
 const AddRecipe = ({ navigation }: any) => {
   const [image, setImage] = useState<any>();
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [instruction, setInstruction] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [htmlId] = useId();
 
   const pickImage = () => {
     launchImageLibrary(
@@ -25,17 +28,33 @@ const AddRecipe = ({ navigation }: any) => {
     );
   };
 
-  const storeRecipe = async (recipe: any) => {
+  // const storeRecipe = async (recipe: any) => {
+  //   try {
+  //     const oldRecipe = await AsyncStorage.getItem("user_recipes");
+  //     if (oldRecipe != null) {
+  //       //append to list
+  //       console.log(oldRecipe);
+  //     }
+  //     const jsonValue = JSON.stringify(recipe);
+  //     await AsyncStorage.setItem("user_recipes", jsonValue);
+  //   } catch (e) {
+  //     console.log("error saving");
+  //   }
+  // };
+
+  const storeRecipe = () => {
     try {
-      const oldRecipe = await AsyncStorage.getItem("user_recipes");
-      if (oldRecipe != null) {
-        //append to list
-        console.log(oldRecipe);
-      }
-      const jsonValue = JSON.stringify(recipe);
-      await AsyncStorage.setItem("user_recipes", jsonValue);
+      const newRecipe = {
+        _id: htmlId,
+        title,
+        image: image.uri,
+        instructions,
+        ingredients,
+      };
+      addNewRecipe(newRecipe);
+      console.log(`recipe ${title} added`);
     } catch (e) {
-      console.log("error saving");
+      console.log(`error saving: ${e.message}`);
     }
   };
 
@@ -67,7 +86,7 @@ const AddRecipe = ({ navigation }: any) => {
             <Input
               placeholder="Enter recipe steps"
               multiline={true}
-              onChangeText={(input) => setInstruction(input)}
+              onChangeText={(input) => setInstructions(input)}
             />
           </View>
 
@@ -77,18 +96,12 @@ const AddRecipe = ({ navigation }: any) => {
             containerStyle={{ paddingHorizontal: 20 }}
             titleStyle={{ padding: 10, flex: 1 }}
             onPress={() => {
-              if (!title || !image || !instruction || !ingredients) {
+              if (!title || !image || !instructions || !ingredients) {
                 Alert.alert("Please ensure that all fields are filled");
               } else {
                 console.log("All fields are filled");
                 //add recipe goes here
-                const recipe = {
-                  image: image.uri,
-                  title,
-                  ingredients,
-                  instruction,
-                };
-                storeRecipe(recipe);
+                storeRecipe();
               }
             }}
           />
