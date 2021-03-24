@@ -7,14 +7,38 @@ import SearchComponent from "./modules/searchModule";
 import RecipeListModule from "./modules/RecipeListModule";
 import FilterList from "./modules/FilterList";
 import { Context } from "../context/recipeContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const actionSheetRef: any = createRef();
 
 const SearchScreen = ({ navigation }: any) => {
   const [input, setInput] = useState("");
   const [cuisine, setCuisine] = useState("");
+  const [recipe, setRecipe] = useState({});
 
   const { state, getRecipes, getRecipeTypes }: any = useContext(Context);
+
+  const storeRecipe = async (recipe: any) => {
+    try {
+      const jsonValue = JSON.stringify(recipe);
+      await AsyncStorage.setItem("searched_recipes", jsonValue);
+      console.log(`jsonvalue is ${jsonValue}`);
+    } catch (e) {
+      console.log(`error saving: ${e.message}`);
+    }
+  };
+
+  const getStoredRecipe = async () => {
+    try {
+      let storedRecipe: any = await AsyncStorage.getItem("searched_recipes");
+      storedRecipe = JSON.parse(storedRecipe);
+      console.log(storedRecipe);
+    } catch (e) {
+      console.log(`error saving: ${e.message}`);
+    }
+  };
+
+  console.log(state.results);
 
   useEffect(() => {
     getRecipeTypes();

@@ -19,15 +19,7 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
   if (id) {
     useEffect(() => {
       getDetailedRecipes(id);
-
-      navigation.addListener("focus", () => {
-        getDetailedRecipes(id);
-      });
-
-      return () => {
-        getDetailedRecipes(id);
-      };
-    }, [id]);
+    }, []);
 
     //for API request recipes
     return (

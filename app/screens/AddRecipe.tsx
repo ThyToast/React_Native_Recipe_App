@@ -28,20 +28,6 @@ const AddRecipe = ({ navigation }: any) => {
     );
   };
 
-  // const storeRecipe = async (recipe: any) => {
-  //   try {
-  //     const oldRecipe = await AsyncStorage.getItem("user_recipes");
-  //     if (oldRecipe != null) {
-  //       //append to list
-  //       console.log(oldRecipe);
-  //     }
-  //     const jsonValue = JSON.stringify(recipe);
-  //     await AsyncStorage.setItem("user_recipes", jsonValue);
-  //   } catch (e) {
-  //     console.log("error saving");
-  //   }
-  // };
-
   const storeRecipe = () => {
     try {
       const newRecipe = {

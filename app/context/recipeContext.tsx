@@ -32,7 +32,7 @@ const getRecipes = (dispatch: any) => {
       params: {
         query,
         cuisine,
-        apiKey: apiKey2,
+        apiKey: apiKey,
       },
     });
     dispatch({ type: "get", payload: response.data });
@@ -44,7 +44,7 @@ const getRandomRecipes = (dispatch: any) => {
     const response = await spoonacular.get("/random", {
       params: {
         number: amount.toString(),
-        apiKey: apiKey2,
+        apiKey: apiKey,
       },
     });
     dispatch({ type: "get_random", payload: response.data });
@@ -55,7 +55,7 @@ const getDetailedRecipes = (dispatch: any) => {
   return async (id: any) => {
     const response = await spoonacular.get(`/${id}/information/`, {
       params: {
-        apiKey: apiKey2,
+        apiKey: apiKey,
       },
     });
     dispatch({ type: "get_detailed", payload: response.data });
