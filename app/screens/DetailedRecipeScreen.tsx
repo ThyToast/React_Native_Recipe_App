@@ -35,7 +35,7 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
         <ScrollView>
           <ImageBackground
             style={styles.image}
-            imageStyle={{ width: "100%", borderRadius: 15 }}
+            imageStyle={styles.roundedCorners}
             source={{ uri: state.image }}
           >
             <LinearGradient
@@ -59,7 +59,7 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
         <ScrollView>
           <ImageBackground
             style={styles.image}
-            imageStyle={{ width: "100%", borderRadius: 15 }}
+            imageStyle={styles.roundedCorners}
             source={{ uri: recipes.image }}
           >
             <LinearGradient
@@ -69,8 +69,12 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
             />
             <Text style={styles.name}>{recipes.title}</Text>
           </ImageBackground>
-          <Text style={styles.text}>{recipes.ingredients}</Text>
-          <Text style={styles.text}>{recipes.instructions}</Text>
+          <Text
+            style={styles.text}
+          >{`Ingredients: \n${recipes.ingredients}`}</Text>
+          <Text
+            style={styles.text}
+          >{`Instructions: \n${recipes.instructions}`}</Text>
         </ScrollView>
       </View>
     );
@@ -81,6 +85,10 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 250,
+    top: -20,
+  },
+  roundedCorners: {
+    borderRadius: 25,
   },
   name: {
     fontWeight: "bold",
