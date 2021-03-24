@@ -53,6 +53,8 @@ const AddRecipe = ({ navigation }: any) => {
       };
       addNewRecipe(newRecipe);
       console.log(`recipe ${title} added`);
+      Keyboard.dismiss();
+      navigation.goBack();
     } catch (e) {
       console.log(`error saving: ${e.message}`);
     }

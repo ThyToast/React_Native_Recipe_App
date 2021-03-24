@@ -33,9 +33,9 @@ const UserRecipe = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Text h2 style={styles.text}>
-        User
+        User Recipes
       </Text>
-      <UserRecipeList recipes={recipes} />
+      <UserRecipeList recipes={recipes} navigation={navigation} />
 
       <Icon
         raised
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    paddingBottom: 10,
+    marginLeft: 10,
   },
   noRecipe: {
     alignSelf: "center",

@@ -1,49 +1,80 @@
 import React, { useContext, useEffect } from "react";
 import {
+  FlatList,
   ImageBackground,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
+import { Text } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import { Context } from "../context/recipeContext";
+import IngredientList from "./modules/IngredientList";
 
 const DetailedRecipeScreen = ({ route, navigation }: any) => {
   const { state, getDetailedRecipes }: any = useContext(Context);
   const { id } = route.params;
+  const { recipes } = route.params;
 
-  useEffect(() => {
-    getDetailedRecipes(id);
-
-    navigation.addListener("focus", () => {
+  if (id) {
+    useEffect(() => {
       getDetailedRecipes(id);
-    });
 
-    return () => {
-      getDetailedRecipes(id);
-    };
-  }, [id]);
+      navigation.addListener("focus", () => {
+        getDetailedRecipes(id);
+      });
 
-  return (
-    <View>
-      <ScrollView>
-        <ImageBackground
-          style={styles.image}
-          imageStyle={{ width: "100%", borderRadius: 15 }}
-          source={{ uri: state.image }}
-        >
-          <LinearGradient
-            //adds a transparent gradient on top of source image
-            colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
-            style={styles.linearGradient}
-          />
-          <Text style={styles.name}>{state.title}</Text>
-        </ImageBackground>
-        <Text style={styles.instructions}>{state.instructions}</Text>
-      </ScrollView>
-    </View>
-  );
+      return () => {
+        getDetailedRecipes(id);
+      };
+    }, [id]);
+
+    //for API request recipes
+    return (
+      <View>
+        <ScrollView>
+          <ImageBackground
+            style={styles.image}
+            imageStyle={{ width: "100%", borderRadius: 15 }}
+            source={{ uri: state.image }}
+          >
+            <LinearGradient
+              //adds a transparent gradient on top of source image
+              colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
+              style={styles.linearGradient}
+            />
+            <Text style={styles.name}>{state.title}</Text>
+          </ImageBackground>
+
+          <Text style={styles.text}>Ingredients: </Text>
+          <IngredientList ingredient={state.extendedIngredients} />
+          <Text style={styles.text}>{state.instructions}</Text>
+        </ScrollView>
+      </View>
+    );
+  } else if (recipes) {
+    //for user recipes
+    return (
+      <View>
+        <ScrollView>
+          <ImageBackground
+            style={styles.image}
+            imageStyle={{ width: "100%", borderRadius: 15 }}
+            source={{ uri: recipes.image }}
+          >
+            <LinearGradient
+              //adds a transparent gradient on top of source image
+              colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
+              style={styles.linearGradient}
+            />
+            <Text style={styles.name}>{recipes.title}</Text>
+          </ImageBackground>
+          <Text style={styles.text}>{recipes.ingredients}</Text>
+          <Text style={styles.text}>{recipes.instructions}</Text>
+        </ScrollView>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -71,7 +102,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  instructions: {
+  text: {
     fontSize: 18,
     padding: 10,
     paddingVertical: 20,

@@ -5,10 +5,19 @@ import {
   View,
   FlatList,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { YellowBox } from "react-native";
+
+YellowBox.ignoreWarnings([
+  "Non-serializable values were found in the navigation state",
+]);
 
 const UserRecipeList = ({ recipes }: any) => {
+  const navigation = useNavigation();
+
   if (!recipes) {
     return null;
   }
@@ -19,21 +28,25 @@ const UserRecipeList = ({ recipes }: any) => {
       keyExtractor={(recipes) => recipes._id}
       renderItem={({ item }) => {
         return (
-          <View style={styles.container}>
-            <ImageBackground
-              style={styles.image}
-              imageStyle={{ width: "100%", borderRadius: 15 }}
-              source={{ uri: item.image }}
-            >
-              <LinearGradient
-                //adds a transparent gradient on top of source image
-                colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
-                style={styles.linearGradient}
-              />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Detail", { recipes: item })}
+          >
+            <View style={styles.container}>
+              <ImageBackground
+                style={styles.image}
+                imageStyle={{ width: "100%", borderRadius: 15 }}
+                source={{ uri: item.image }}
+              >
+                <LinearGradient
+                  //adds a transparent gradient on top of source image
+                  colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
+                  style={styles.linearGradient}
+                />
 
-              <Text style={styles.name}>{item.title}</Text>
-            </ImageBackground>
-          </View>
+                <Text style={styles.name}>{item.title}</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
         );
       }}
       showsVerticalScrollIndicator={false}
@@ -43,7 +56,7 @@ const UserRecipeList = ({ recipes }: any) => {
 
 const styles = StyleSheet.create({
   spacing: {
-    paddingBottom: "30%",
+    paddingBottom: "40%",
   },
   container: {
     alignItems: "center",
