@@ -1,11 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {
-  FlatList,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "react-native-elements";
 import LinearGradient from "react-native-linear-gradient";
 import { Context } from "../context/recipeContext";
@@ -19,7 +13,7 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
   if (id) {
     useEffect(() => {
       getDetailedRecipes(id);
-    }, []);
+    }, [id]);
 
     //for API request recipes
     return (

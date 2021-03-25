@@ -7,7 +7,7 @@ import SearchComponent from "./modules/searchModule";
 import RecipeListModule from "./modules/RecipeListModule";
 import FilterList from "./modules/FilterList";
 import { Context } from "../context/recipeContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { storeRecipe, getStoredRecipe } from "../model/asyncRecipe";
 
 const actionSheetRef: any = createRef();
 
@@ -18,41 +18,31 @@ const SearchScreen = ({ navigation }: any) => {
 
   const { state, getRecipes, getRecipeTypes }: any = useContext(Context);
 
-  const storeRecipe = async (recipe: any) => {
+  const retrieveRecipe = async () => {
     try {
-      const jsonValue = JSON.stringify(recipe);
-      await AsyncStorage.setItem("searched_recipes", jsonValue);
-      console.log(`jsonvalue is ${jsonValue}`);
+      let storedRecipe: any = await getStoredRecipe("searched_recipes");
+      setRecipe(storedRecipe);
     } catch (e) {
-      console.log(`error saving: ${e.message}`);
+      console.log(`error displaying: ${e.message}`);
     }
   };
 
-  const getStoredRecipe = async () => {
-    try {
-      let storedRecipe: any = await AsyncStorage.getItem("searched_recipes");
-      storedRecipe = JSON.parse(storedRecipe);
-      console.log(storedRecipe);
-    } catch (e) {
-      console.log(`error saving: ${e.message}`);
-    }
-  };
-
-  console.log(state.results);
-
+  //calls on page load or page focus
   useEffect(() => {
-    getRecipeTypes();
+    retrieveRecipe();
 
     navigation.addListener("focus", () => {
-      if (input) {
-        getRecipes(input, cuisine);
-      }
+      retrieveRecipe();
     });
-
-    return () => {
-      getRecipeTypes();
-    };
   }, []);
+
+  //stores data whenever state changes
+  useEffect(() => {
+    if (state.results) {
+      storeRecipe(state.results, "searched_recipes");
+      retrieveRecipe();
+    }
+  }, [state]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -65,10 +55,11 @@ const SearchScreen = ({ navigation }: any) => {
         onInputSubmit={() => {
           if (input) {
             getRecipes(input, cuisine);
+            retrieveRecipe();
           }
         }}
       />
-      <RecipeListModule results={state.results} isVertical={true} />
+      <RecipeListModule results={recipe} isVertical={true} />
 
       <Icon
         raised

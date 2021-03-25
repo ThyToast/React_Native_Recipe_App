@@ -21,7 +21,8 @@ const IngredientList = ({ ingredient }: any) => {
           </View>
         );
       }}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.name}
+      //API recipe ID has conflicts for some reason
     />
   );
 };
