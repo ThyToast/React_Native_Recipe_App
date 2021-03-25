@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Icon, Text } from "react-native-elements";
+
 import UserRecipeList from "./modules/UserRecipeList";
+import { Icon, Text } from "react-native-elements";
 import { displayAllRecipes } from "../model/schema";
 
 const UserRecipe = ({ navigation }: any) => {
