@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Icon } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Provider as PaperProvider } from "react-native-paper";
 
 import SearchScreen from "./app/screens/SearchScreen";
 import DetailedRecipeScreen from "./app/screens/DetailedRecipeScreen";
@@ -111,8 +112,10 @@ const styles = StyleSheet.create({
 
 export default () => {
   return (
-    <Provider>
-      <App />
-    </Provider>
+    <PaperProvider>
+      <Provider>
+        <App />
+      </Provider>
+    </PaperProvider>
   );
 };

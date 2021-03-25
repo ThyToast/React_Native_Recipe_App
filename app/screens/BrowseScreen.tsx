@@ -1,29 +1,41 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-elements";
-import { Context } from "../context/recipeContext";
-import RecipeListHorizontal from "./modules/RecipeListHorizontal";
 
-const BrowseScreen = () => {
+import { storeRecipe, getStoredRecipe } from "../model/asyncRecipe";
+import { Context } from "../context/recipeContext";
+import RecipeListModule from "./modules/RecipeListModule";
+
+const BrowseScreen = ({ navigation }: any) => {
   const { state, getRandomRecipes }: any = useContext(Context);
+  const [recipe, setRecipe] = useState({});
+
   let item = 15;
 
   useEffect(() => {
     getRandomRecipes(item);
 
     //loads new data on page focus
-
     // navigation.addListener("focus", () => {
     //   getRandomRecipes(item);
-    //   console.log(state.recipes);
     // });
-
-    //clears the listener when user switches screens
-    //like rxjava
-    return () => {
-      getRandomRecipes(item);
-    };
   }, []);
+
+  const retrieveRecipe = async () => {
+    try {
+      let storedRecipe: any = await getStoredRecipe("random_recipes");
+      setRecipe(storedRecipe);
+    } catch (e) {
+      console.log(`error displaying: ${e.message}`);
+    }
+  };
+
+  useEffect(() => {
+    if (state.recipes) {
+      storeRecipe(state.recipes, "random_recipes");
+    }
+    retrieveRecipe();
+  }, [state]);
 
   return (
     <View>
@@ -31,7 +43,7 @@ const BrowseScreen = () => {
         Browse
       </Text>
 
-      <RecipeListHorizontal results={state.recipes} />
+      <RecipeListModule results={recipe} />
     </View>
   );
 };

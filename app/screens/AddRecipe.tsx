@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Image, Platform, Alert } from "react-native";
-import { Text, Input, Icon } from "react-native-elements";
+import React, { useState } from "react";
+import { StyleSheet, View, Image, Keyboard, Alert } from "react-native";
+import { Text, Input, Icon, Button } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { launchImageLibrary } from "react-native-image-picker";
+import { useId } from "react-id-generator";
 
-const AddRecipe = () => {
+import { addNewRecipe } from "../model/schema";
+
+const AddRecipe = ({ navigation }: any) => {
   const [image, setImage] = useState<any>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (Platform.OS !== "web") {
-  //       const {
-  //         status,
-  //       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== "granted") {
-  //         Alert.alert(
-  //           "Sorry, we need camera roll permissions to make this work!"
-  //         );
-  //       }
-  //     }
-  //   })();
-  // }, []);
+  const [title, setTitle] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [htmlId] = useId(1, title);
 
   const pickImage = () => {
     launchImageLibrary(
@@ -34,6 +26,24 @@ const AddRecipe = () => {
         setImage(response);
       }
     );
+  };
+
+  const storeRecipe = () => {
+    try {
+      const newRecipe = {
+        _id: htmlId,
+        title,
+        image: image.uri,
+        instructions,
+        ingredients,
+      };
+      addNewRecipe(newRecipe);
+      console.log(`recipe ${title} added`);
+      Keyboard.dismiss();
+      navigation.goBack();
+    } catch (e) {
+      console.log(`error saving: ${e.message}`);
+    }
   };
 
   return (
@@ -52,16 +62,43 @@ const AddRecipe = () => {
           ) : null}
 
           <View style={styles.inputContainer}>
-            <Input placeholder="Enter recipe name" />
-            <Input placeholder="Enter recipe ingredients" multiline={true} />
-            <Input placeholder="Enter recipe steps" multiline={true} />
+            <Input
+              placeholder="Enter recipe name"
+              onChangeText={(input) => setTitle(input)}
+            />
+            <Input
+              placeholder="Enter recipe ingredients"
+              multiline={true}
+              onChangeText={(input) => setIngredients(input)}
+            />
+            <Input
+              placeholder="Enter recipe steps"
+              multiline={true}
+              onChangeText={(input) => setInstructions(input)}
+            />
           </View>
+
+          <Button
+            title="Add Recipe"
+            buttonStyle={styles.button}
+            containerStyle={{ paddingHorizontal: 20 }}
+            titleStyle={{ padding: 10, flex: 1 }}
+            onPress={() => {
+              if (!title || !image || !instructions || !ingredients) {
+                Alert.alert("Please ensure that all fields are filled");
+              } else {
+                console.log("All fields are filled");
+                //add recipe goes here
+                storeRecipe();
+              }
+            }}
+          />
         </View>
       </ScrollView>
 
       <Icon
         raised
-        containerStyle={styles.button}
+        containerStyle={styles.upload}
         name="upload"
         type="font-awesome-5"
         onPress={pickImage}
@@ -83,10 +120,13 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 10,
   },
-  button: {
+  upload: {
     alignSelf: "flex-end",
     bottom: 20,
     right: 20,
+  },
+  button: {
+    height: 35,
   },
 });
 

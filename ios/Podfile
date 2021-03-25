@@ -16,6 +16,8 @@ target 'recipe_app_native' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'recipe_app_nativeTests' do
     inherit! :complete
     # Pods for testing

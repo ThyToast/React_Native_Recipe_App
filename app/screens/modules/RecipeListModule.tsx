@@ -1,42 +1,44 @@
 import React from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Divider } from "react-native-elements";
+import { Divider, Text } from "react-native-elements";
 import RecipeItemListModule from "./RecipeItemListModule";
 
-const RecipeListModule = ({ results, isVertical }: any) => {
+const RecipeListModule = ({ results }: any) => {
   const navigation = useNavigation();
 
   if (!results) {
-    return null;
+    return <Text style={styles.errorText}>No results found</Text>;
   }
 
   return (
-    <FlatList
-      style={styles.flatlist}
-      data={results}
-      showsVerticalScrollIndicator={false}
-      renderItem={({ item }) => {
-        return (
-          <>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Detail", { id: item.id })}
-            >
-              <RecipeItemListModule result={item} isVertical={true} />
-            </TouchableOpacity>
+    <View style={styles.container}>
+      <FlatList
+        style={styles.flatlist}
+        data={results}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => {
+          return (
+            <>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Detail", { id: item.id })}
+              >
+                <RecipeItemListModule result={item} isVertical={true} />
+              </TouchableOpacity>
 
-            <Divider
-              style={{
-                backgroundColor: "lightgray",
-                height: 2,
-                marginVertical: 25,
-              }}
-            />
-          </>
-        );
-      }}
-      keyExtractor={(item) => item.id.toString()}
-    />
+              <Divider
+                style={{
+                  backgroundColor: "lightgray",
+                  height: 2,
+                  marginVertical: 25,
+                }}
+              />
+            </>
+          );
+        }}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </View>
   );
 };
 
@@ -46,6 +48,10 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     paddingTop: 15,
+  },
+  errorText: {
+    alignSelf: "center",
+    fontSize: 18,
   },
 });
 

@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
+
+import UserRecipeList from "./modules/UserRecipeList";
 import { Icon, Text } from "react-native-elements";
+import { displayAllRecipes } from "../model/schema";
 
 const UserRecipe = ({ navigation }: any) => {
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    reloadData();
+
+    navigation.addListener("focus", () => {
+      reloadData();
+    });
+
+    return () => {
+      reloadData();
+    };
+  }, []);
+
+  const reloadData = () => {
+    try {
+      displayAllRecipes().then((recipeList: any) => {
+        setRecipes(recipeList);
+        console.log("Displaying recipes");
+      });
+    } catch (error) {
+      console.log("No recipes found");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text h2 style={styles.text}>
-        User
+        User Recipes
       </Text>
-      <Text style={styles.noRecipe}>No recipes found</Text>
+      <UserRecipeList recipes={recipes} navigation={navigation} />
+
       <Icon
         raised
         name="add"
@@ -34,7 +63,7 @@ const styles = StyleSheet.create({
   },
   text: {
     padding: 10,
-    paddingBottom: 10,
+    marginLeft: 10,
   },
   noRecipe: {
     alignSelf: "center",
