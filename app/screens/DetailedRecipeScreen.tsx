@@ -1,14 +1,31 @@
-import React, { useContext, useEffect } from "react";
-import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
-import { Text } from "react-native-elements";
+import React, { useContext, useEffect, useState } from "react";
 import LinearGradient from "react-native-linear-gradient";
-import { Context } from "../context/recipeContext";
+import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
+import { Icon, Text, Overlay, Button } from "react-native-elements";
+
 import IngredientList from "./modules/IngredientList";
+import { Context } from "../context/recipeContext";
+import { deleteRecipe } from "../model/schema";
 
 const DetailedRecipeScreen = ({ route, navigation }: any) => {
   const { state, getDetailedRecipes }: any = useContext(Context);
   const { id } = route.params;
   const { recipes } = route.params;
+  const [visible, setVisible] = useState(false);
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
+  const removeRecipes = (id: any) => {
+    try {
+      deleteRecipe(id);
+      console.log(id);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (id) {
     useEffect(() => {
@@ -39,7 +56,9 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
       </View>
     );
   } else if (recipes) {
+    console.log(recipes);
     //for user recipes
+
     return (
       <View>
         <ScrollView>
@@ -53,6 +72,25 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
               colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 32)"]}
               style={styles.linearGradient}
             />
+            <View style={styles.iconContainer}>
+              <Icon
+                reverse
+                name="delete"
+                type="material"
+                color="darkorange"
+                onPress={toggleOverlay}
+              />
+              <Icon
+                reverse
+                name="edit"
+                type="material"
+                color="darkorange"
+                onPress={() => {
+                  navigation.navigate("EditStack", { oldRecipe: recipes });
+                }}
+              />
+            </View>
+
             <Text style={styles.name}>{recipes.title}</Text>
           </ImageBackground>
           <Text
@@ -62,6 +100,26 @@ const DetailedRecipeScreen = ({ route, navigation }: any) => {
             style={styles.text}
           >{`Instructions: \n${recipes.instructions}`}</Text>
         </ScrollView>
+
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+          <Text
+            style={styles.message}
+          >{`Confirm deleting recipe '${recipes.title}'?`}</Text>
+          <View style={styles.buttonContainer}>
+            <Button
+              buttonStyle={styles.button}
+              title="Confirm"
+              onPress={() => {
+                removeRecipes(recipes._id);
+              }}
+            />
+            <Button
+              buttonStyle={styles.button}
+              title="Cancel"
+              onPress={toggleOverlay}
+            />
+          </View>
+        </Overlay>
       </View>
     );
   }
@@ -100,6 +158,23 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 10,
     paddingVertical: 20,
+  },
+  iconContainer: {
+    alignItems: "flex-end",
+    top: 30,
+  },
+  message: {
+    fontSize: 18,
+    padding: 10,
+  },
+  button: {
+    height: 50,
+    margin: 20,
+    paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
   },
 });
 

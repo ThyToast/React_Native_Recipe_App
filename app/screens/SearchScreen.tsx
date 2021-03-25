@@ -15,6 +15,7 @@ const SearchScreen = ({ navigation }: any) => {
   const [input, setInput] = useState("");
   const [cuisine, setCuisine] = useState("");
   const [recipe, setRecipe] = useState({});
+  const [type, setType] = useState({});
 
   const { state, getRecipes, getRecipeTypes }: any = useContext(Context);
 
@@ -27,9 +28,19 @@ const SearchScreen = ({ navigation }: any) => {
     }
   };
 
+  const retrieveRecipeTypes = async () => {
+    try {
+      let storedRecipeType: any = await getStoredRecipe("recipe_types");
+      setType(storedRecipeType);
+    } catch (e) {
+      console.log(`error displaying: ${e.message}`);
+    }
+  };
+
   //calls on page load or page focus
   useEffect(() => {
     retrieveRecipe();
+    retrieveRecipeTypes();
 
     navigation.addListener("focus", () => {
       retrieveRecipe();
@@ -41,6 +52,9 @@ const SearchScreen = ({ navigation }: any) => {
     if (state.results) {
       storeRecipe(state.results, "searched_recipes");
       retrieveRecipe();
+    }
+    if (state.recipetypes) {
+      storeRecipe(state.recipetypes, "recipe_types");
     }
   }, [state]);
 
@@ -59,7 +73,7 @@ const SearchScreen = ({ navigation }: any) => {
           }
         }}
       />
-      <RecipeListModule results={recipe} isVertical={true} />
+      <RecipeListModule results={recipe} />
 
       <Icon
         raised
@@ -88,9 +102,9 @@ const SearchScreen = ({ navigation }: any) => {
               actionSheetRef.current?.handleChildScrollEnd()
             }
           >
-            {state.recipetypes ? (
+            {type ? (
               <FilterList
-                recipeTypes={state.recipetypes}
+                recipeTypes={type}
                 callback={setCuisine}
                 refresh={() => {
                   getRecipes(input, cuisine);

@@ -5,7 +5,7 @@ import { parse } from "fast-xml-parser";
 
 //limited to 150 requests a day only
 const apiKey = "9a37e6e82ff442a7a2fb07a6b6f9f324";
-const apiKey2 = "8ca81bced4754597a98183551a66ef90";
+const apiKey2 = "b4461fbf347d486d973781a27735bc79";
 
 const recipeReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -32,7 +32,7 @@ const getRecipes = (dispatch: any) => {
       params: {
         query,
         cuisine,
-        apiKey: apiKey,
+        apiKey: apiKey2,
       },
     });
     dispatch({ type: "get", payload: response.data });
@@ -44,7 +44,7 @@ const getRandomRecipes = (dispatch: any) => {
     const response = await spoonacular.get("/random", {
       params: {
         number: amount.toString(),
-        apiKey: apiKey,
+        apiKey: apiKey2,
       },
     });
     dispatch({ type: "get_random", payload: response.data });
@@ -55,7 +55,7 @@ const getDetailedRecipes = (dispatch: any) => {
   return async (id: any) => {
     const response = await spoonacular.get(`/${id}/information/`, {
       params: {
-        apiKey: apiKey,
+        apiKey: apiKey2,
       },
     });
     dispatch({ type: "get_detailed", payload: response.data });
