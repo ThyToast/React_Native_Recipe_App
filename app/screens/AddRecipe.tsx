@@ -12,7 +12,7 @@ const AddRecipe = ({ navigation }: any) => {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [htmlId] = useId();
+  const [htmlId] = useId(1, title);
 
   const pickImage = () => {
     launchImageLibrary(
